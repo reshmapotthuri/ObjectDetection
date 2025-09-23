@@ -1,0 +1,37 @@
+﻿@page
+@using ObjectDetection.Models
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="imageFile" />
+        <button type="submit">Detect Objects</button>
+    </form>
+@*     <ItemGroup>
+        <Content Include="wwwroot\models\object-detection.onnx">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup> *@
+    @if (ViewData["Detections"] is List<DetectionResult> detections)
+    {
+        <ul>
+            @foreach (var result in detections)
+            {
+                <li>
+                    <br />
+                    <img src="@Url.Content($"{(result.ImagePath)}")" alt="@result.LabelName" width="80" />
+
+                    <strong>@result.LabelName</strong>
+                    (Confidence: @result.Confidence.ToString("P1"))
+                    @* [X: @result.BoundingBox.X, Y: @result.BoundingBox.Y, W: @result.BoundingBox.Width, H: @result.BoundingBox.Height] *@
+                </li>
+
+            }
+        </ul>
+    }
+
+</div>
